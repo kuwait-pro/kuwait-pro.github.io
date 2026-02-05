@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://woodmart-kuwait-pro.pages.dev/sitemap.xml
