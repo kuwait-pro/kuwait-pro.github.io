@@ -3,23 +3,53 @@ document.addEventListener('alpine:init', () => {
     Alpine.store('cart', {
         items: JSON.parse(localStorage.getItem('cart')) || [],
         open: false,
-        toggle() { this.open = !this.open; document.body.classList.toggle('drawer-open'); },
+        toggle() { 
+            this.open = !this.open; 
+            document.body.classList.toggle('drawer-open'); 
+        },
         add(product) {
             const existing = this.items.find(i => i.id === product.id);
-            if (existing) { existing.qty++; } else { this.items.push({...product, qty: 1}); }
+            if (existing) { 
+                existing.qty++; 
+            } else { 
+                this.items.push({...product, qty: 1}); 
+            }
             this.save();
+            if (navigator.vibrate) navigator.vibrate(50);
         },
-        remove(id) { this.items = this.items.filter(i => i.id !== id); this.save(); },
-        save() { localStorage.setItem('cart', JSON.stringify(this.items)); },
-        get total() { return this.items.reduce((sum, i) => sum + (i.price * i.qty), 0).toFixed(2); },
-        get count() { return this.items.reduce((sum, i) => sum + i.qty, 0); },
+        remove(id) { 
+            this.items = this.items.filter(i => i.id !== id); 
+            this.save(); 
+        },
+        save() { 
+            localStorage.setItem('cart', JSON.stringify(this.items)); 
+        },
+        get total() { 
+            return this.items.reduce((sum, i) => sum + (i.price * i.qty), 0).toFixed(2); 
+        },
+        get count() { 
+            return this.items.reduce((sum, i) => sum + i.qty, 0); 
+        },
         checkout() {
-            if (this.items.length === 0) { alert('السلة فارغة!'); return; }
-            let msg = `🛒 *طلب جديد من سوق الكويت*\n━━━━━━━━━━━━━━━━━\n\n`;
+            if (this.items.length === 0) { 
+                alert('السلة فارغة!'); 
+                return; 
+            }
+            
+            let msg = `🛒 *طلب جديد من سوق الكويت*\n`;
+            msg += `━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+            
             this.items.forEach((item, idx) => {
-                msg += `*${idx + 1}.* ${item.title}\n   📦 الكمية: ${item.qty}\n   💰 السعر: ${item.price} د.ك\n   💵 الإجمالي: ${(item.price * item.qty).toFixed(2)} د.ك\n\n`;
+                msg += `*${idx + 1}.* ${item.title}\n`;
+                msg += `   📦 الكمية: ${item.qty}\n`;
+                msg += `   💰 السعر: ${item.price} د.ك\n`;
+                msg += `   💵 الإجمالي: ${(item.price * item.qty).toFixed(2)} د.ك\n\n`;
             });
-            msg += `━━━━━━━━━━━━━━━━━\n💵 *المجموع الكلي: ${this.total} د.ك*\n\n📍 *يرجى تزويدي بالعنوان*`;
+            
+            msg += `━━━━━━━━━━━━━━━━━━━━━━━\n`;
+            msg += `💵 *المجموع الكلي: ${this.total} د.ك*\n\n`;
+            msg += `📍 *يرجى إرسال العنوان وطريقة الدفع*`;
+            
             window.open(`https://wa.me/201110760081?text=${encodeURIComponent(msg)}`, '_blank');
         }
     });
@@ -34,10 +64,15 @@ document.addEventListener('alpine:init', () => {
             const id = params.get('id');
             const kw = params.get('kw');
             
-            if (!id) return;
+            if (!id) {
+                console.error('Product ID missing');
+                return;
+            }
             
             try {
                 const res = await fetch('products_data_cleaned.json');
+                if (!res.ok) throw new Error('Failed to load products');
+                
                 const data = await res.json();
                 this.product = data.find(p => p.id == id);
                 
@@ -50,14 +85,16 @@ document.addEventListener('alpine:init', () => {
                         document.title = `${keyword} | سوق الكويت`;
                         
                         const metaDesc = document.querySelector('meta[name="description"]');
-                        if (metaDesc) metaDesc.content = `اشتري ${keyword} بأفضل سعر في الكويت. ${this.product.title} - ${this.product.pricing.sale} د.ك`;
+                        if (metaDesc) {
+                            metaDesc.content = `اشتري ${keyword} بأفضل سعر في الكويت. ${this.product.title} - ${this.product.pricing.sale} د.ك. توصيل سريع ودفع عند الاستلام.`;
+                        }
                         
                         const banner = document.getElementById('seo-banner');
                         if (banner) {
                             banner.innerHTML = `
                                 <div class="seo-banner">
                                     <h1>🔍 ${keyword}</h1>
-                                    <p>وجدنا لك أفضل عرض متاح. تصفح التفاصيل واطلب الآن!</p>
+                                    <p>وجدنا لك أفضل عرض متاح في السوق الكويتي. تصفح التفاصيل واطلب الآن مع توصيل سريع!</p>
                                 </div>
                             `;
                         }
@@ -66,11 +103,17 @@ document.addEventListener('alpine:init', () => {
                     }
                     
                     this.injectSchema();
+                } else {
+                    console.error('Product not found');
                 }
-            } catch(e) { console.error(e); }
+            } catch(e) { 
+                console.error('Error loading product:', e); 
+            }
         },
         
-        selectImage(url) { this.selectedImage = url; },
+        selectImage(url) { 
+            this.selectedImage = url; 
+        },
         
         injectSchema() {
             const schema = {
@@ -79,7 +122,7 @@ document.addEventListener('alpine:init', () => {
                 "name": this.product.title,
                 "image": [this.product.media.main_image, ...(this.product.media.gallery || [])],
                 "description": this.product.description,
-                "sku": this.product.id,
+                "sku": String(this.product.id),
                 "brand": { "@type": "Brand", "name": "سوق الكويت" },
                 "offers": {
                     "@type": "Offer",
@@ -91,6 +134,7 @@ document.addEventListener('alpine:init', () => {
                     "itemCondition": "https://schema.org/NewCondition"
                 }
             };
+            
             const script = document.createElement('script');
             script.type = 'application/ld+json';
             script.text = JSON.stringify(schema);
@@ -99,8 +143,15 @@ document.addEventListener('alpine:init', () => {
         
         get waLink() {
             if (!this.product) return '#';
+            
             const pageUrl = window.location.href;
-            let msg = `👋 *استفسار عن منتج*\n\n📦 *المنتج:* ${this.product.title}\n💰 *السعر:* ${this.product.pricing.sale} د.ك\n🔖 *كود:* #${this.product.id}\n\n🔗 ${pageUrl}\n\n❓ *هل متوفر؟*`;
+            let msg = `👋 *استفسار عن منتج*\n\n`;
+            msg += `📦 *المنتج:* ${this.product.title}\n`;
+            msg += `💰 *السعر:* ${this.product.pricing.sale} د.ك\n`;
+            msg += `🔖 *الكود:* #${this.product.id}\n\n`;
+            msg += `🔗 *الرابط:*\n${pageUrl}\n\n`;
+            msg += `❓ *هل المنتج متوفر حالياً؟*`;
+            
             return `https://wa.me/201110760081?text=${encodeURIComponent(msg)}`;
         }
     }));

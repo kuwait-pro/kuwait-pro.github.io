@@ -39,14 +39,16 @@
         .header-main { padding: 25px 0; border-bottom: 1px solid var(--border-color); }
         
         .logo { display: flex; align-items: center; gap: 12px; font-size: 24px; font-weight: 900; color: var(--wood-dark); }
-        .logo-icon { width: 45px; height: 45px; background: linear-gradient(135deg, var(--kuwait-green), var(--wood-primary)); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; box-shadow: 0 4px 12px rgba(0,122,61,0.2); }
+        .logo-icon { width: 45px; height: 45px; background: linear-gradient(135deg, var(--kuwait-green), var(--wood-primary)); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 22px; box-shadow: 0 4px 12px rgba(0,122,61,0.2); position: relative; overflow: hidden; }
+        .logo-icon::before { content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent); transform: rotate(45deg); }
         .logo-text { display: flex; flex-direction: column; line-height: 1; }
-        .logo-text .main { font-size: 22px; font-weight: 900; color: var(--wood-dark); }
-        .logo-text .sub { font-size: 11px; font-weight: 600; color: var(--kuwait-green); letter-spacing: 1px; margin-top: 2px; }
+        .logo-text .main { font-size: 22px; font-weight: 900; color: var(--wood-dark); letter-spacing: -0.5px; }
+        .logo-text .sub { font-size: 11px; font-weight: 600; color: var(--kuwait-green); letter-spacing: 1px; margin-top: 2px; text-transform: uppercase; }
         
         .wood-search { flex: 1; max-width: 600px; margin: 0 30px; position: relative; }
-        .wood-search input { width: 100%; border: 2px solid var(--border-color); padding: 12px 20px; border-radius: 30px; outline: none; font-family: 'Cairo'; }
-        .wood-search button { position: absolute; left: 5px; top: 5px; background: transparent; border: none; width: 40px; height: 40px; cursor: pointer; }
+        .wood-search input { width: 100%; border: 2px solid var(--border-color); padding: 12px 20px; border-radius: 30px; outline: none; font-family: 'Cairo'; transition: 0.3s; }
+        .wood-search input:focus { border-color: var(--wood-primary); }
+        .wood-search button { position: absolute; left: 5px; top: 5px; background: transparent; border: none; width: 40px; height: 40px; cursor: pointer; color: #999; }
         
         .header-actions { display: flex; gap: 20px; align-items: center; }
         .icon-link { display: flex; flex-direction: column; align-items: center; font-size: 12px; font-weight: 600; color: var(--wood-dark); cursor: pointer; position: relative; }
@@ -54,38 +56,46 @@
         .cart-count { position: absolute; top: -5px; right: 0; background: var(--wood-primary); color: white; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; }
 
         .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 40px 0; }
-        @media(min-width: 768px) { .products-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media(min-width: 768px) { .products-grid { grid-template-columns: repeat(4, 1fr); gap: 25px; } }
 
-        .product-card { position: relative; border: 1px solid transparent; padding: 15px; transition: 0.3s; background: white; border-radius: 8px; }
-        .product-card:hover { border-color: var(--border-color); box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        .product-card { position: relative; border: 1px solid #f0f0f0; padding: 15px; transition: 0.3s; background: white; border-radius: 10px; }
+        .product-card:hover { border-color: var(--wood-primary); box-shadow: 0 8px 25px rgba(0,0,0,0.08); transform: translateY(-3px); }
         
-        .prod-img-wrap { position: relative; overflow: hidden; margin-bottom: 15px; height: 250px; display: flex; align-items: center; justify-center; background: #fafafa; border-radius: 8px; }
-        .prod-img { max-width: 100%; max-height: 100%; transition: 0.3s; }
+        .prod-img-wrap { position: relative; overflow: hidden; margin-bottom: 15px; height: 250px; display: flex; align-items: center; justify-content: center; background: #fafafa; border-radius: 8px; }
+        .prod-img { max-width: 100%; max-height: 100%; transition: 0.3s; object-fit: contain; }
+        .product-card:hover .prod-img { transform: scale(1.05); }
         
         .prod-title { font-size: 14px; font-weight: 700; color: #2d2a2a; margin-bottom: 8px; line-height: 1.4; height: 40px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-        .prod-price { font-size: 16px; font-weight: 900; color: var(--wood-primary); }
+        .prod-price { font-size: 17px; font-weight: 900; color: var(--wood-primary); }
+        .old-price { font-size: 13px; color: #bbb; text-decoration: line-through; margin-left: 8px; }
         
-        .wood-btn { width: 100%; background: #f5f5f5; color: #333; border: none; padding: 10px; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.3s; border-radius: 5px; margin-top: 10px; font-family: 'Cairo'; }
-        .wood-btn:hover { background: var(--wood-primary); color: white; }
+        .wood-btn { width: 100%; background: #f5f5f5; color: #333; border: none; padding: 11px; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.3s; border-radius: 8px; margin-top: 10px; font-family: 'Cairo'; }
+        .wood-btn:hover { background: var(--wood-primary); color: white; transform: translateY(-2px); }
         .wood-btn-primary { background: var(--wood-primary); color: white; }
+        .wood-btn-primary:hover { background: #6da022; }
 
         .product-gallery { display: grid; gap: 15px; }
-        .main-image { width: 100%; border: 1px solid #eee; border-radius: 8px; padding: 20px; background: white; }
+        .main-image { width: 100%; border: 1px solid #eee; border-radius: 12px; padding: 30px; background: #fafafa; }
         .main-image img { width: 100%; height: auto; display: block; }
         
         .thumbnails { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; }
-        .thumb { width: 80px; height: 80px; border: 2px solid transparent; border-radius: 8px; overflow: hidden; cursor: pointer; transition: 0.3s; flex-shrink: 0; background: #fafafa; }
-        .thumb:hover, .thumb.active { border-color: var(--wood-primary); }
+        .thumbnails::-webkit-scrollbar { height: 6px; }
+        .thumbnails::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
+        .thumb { width: 80px; height: 80px; border: 2px solid #e0e0e0; border-radius: 8px; overflow: hidden; cursor: pointer; transition: 0.3s; flex-shrink: 0; background: #fafafa; }
+        .thumb:hover { border-color: var(--wood-primary); transform: scale(1.05); }
+        .thumb.active { border-color: var(--wood-primary); box-shadow: 0 0 0 2px rgba(131,183,53,0.2); }
         .thumb img { width: 100%; height: 100%; object-fit: cover; }
         
-        .specs-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .specs-table { width: 100%; border-collapse: collapse; margin: 20px 0; background: white; border-radius: 8px; overflow: hidden; }
         .specs-table tr { border-bottom: 1px solid #f0f0f0; }
-        .specs-table td { padding: 12px 15px; font-size: 14px; }
-        .specs-table td:first-child { font-weight: 700; width: 40%; background: #fafafa; }
+        .specs-table tr:last-child { border-bottom: none; }
+        .specs-table td { padding: 14px 16px; font-size: 14px; }
+        .specs-table td:first-child { font-weight: 700; width: 40%; background: #f9f9f9; color: #555; }
         
         .floating-buttons { position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 15px; }
         .float-btn { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); cursor: pointer; transition: all 0.3s; position: relative; }
         .float-btn:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.3); }
+        .float-btn:active { transform: translateY(-2px); }
         .float-whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); }
         .float-cart { background: linear-gradient(135deg, var(--wood-primary), #6da022); }
         .float-badge { position: absolute; top: -5px; right: -5px; background: #ff4444; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; border: 2px solid white; animation: pulse 2s infinite; }
@@ -93,12 +103,12 @@
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
         .seo-banner { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border: 2px solid #0ea5e9; border-radius: 12px; padding: 20px; margin-bottom: 30px; }
-        .seo-banner h1 { color: #0369a1; font-size: 24px; margin-bottom: 10px; font-weight: 900; }
-        .seo-banner p { color: #0c4a6e; font-size: 14px; line-height: 1.6; }
+        .seo-banner h1 { color: #0369a1; font-size: 24px; margin-bottom: 10px; font-weight: 900; line-height: 1.3; }
+        .seo-banner p { color: #0c4a6e; font-size: 14px; line-height: 1.6; margin: 0; }
         
         .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: none; }
         .drawer-open .drawer-overlay { display: block; }
-        .cart-drawer { position: fixed; top: 0; left: 0; width: 340px; height: 100%; background: white; z-index: 201; transform: translateX(-100%); transition: 0.3s; padding: 20px; display: flex; flex-direction: column; box-shadow: 2px 0 20px rgba(0,0,0,0.2); }
+        .cart-drawer { position: fixed; top: 0; left: 0; width: 360px; max-width: 90vw; height: 100%; background: white; z-index: 201; transform: translateX(-100%); transition: 0.3s; padding: 20px; display: flex; flex-direction: column; box-shadow: 2px 0 20px rgba(0,0,0,0.2); }
         .drawer-open .cart-drawer { transform: translateX(0); }
         .cart-item { display: flex; gap: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
         
@@ -109,11 +119,12 @@
             .float-btn { width: 55px; height: 55px; font-size: 22px; }
             .logo-text .main { font-size: 18px; }
             .logo-icon { width: 38px; height: 38px; font-size: 18px; }
+            .prod-img-wrap { height: 200px; }
         }
     </style>
 
     <title>تفاصيل المنتج - سوق الكويت</title>
-    <meta name="description" content="تفاصيل كاملة، صور، ومواصفات المنتج.">
+    <meta name="description" content="تفاصيل كاملة عن المنتج مع الصور والمواصفات والأسعار التنافسية.">
 </head>
 <body x-data="productPage">
     
@@ -123,14 +134,19 @@
                 <div class="logo-icon"><i class="fa-solid fa-store"></i></div>
                 <div class="logo-text">
                     <span class="main">سوق الكويت</span>
-                    <span class="sub">KUWAIT MARKET</span>
+                    <span class="sub">Kuwait Market</span>
                 </div>
             </a>
             <div class="icon-link" @click="$store.cart.toggle()">
                 <i class="fa-solid fa-basket-shopping"></i>
-                <span class="cart-count" x-text="$store.cart.count" x-show="$store.cart.count > 0"></span>
+                <span class="cart-count" x-text="$store.cart.count" x-show="$store.cart.count > 0" x-cloak></span>
             </div>
         </div>
+    </div>
+
+    <!-- Loading State -->
+    <div x-show="loading" style="text-align:center; padding:100px 0">
+        <div style="display:inline-block; width:50px; height:50px; border:5px solid #f3f3f3; border-top:5px solid var(--wood-primary); border-radius:50%; animation:spin 1s linear infinite"></div>
     </div>
 
     <div class="container" style="padding-top:30px; padding-bottom:100px" x-show="!loading" x-cloak>
@@ -138,19 +154,19 @@
         <div id="seo-banner"></div>
         
         <div style="display:grid; grid-template-columns: 1fr; gap:40px">
-            <style>@media(min-width:768px) { .container > div > div { grid-template-columns: 1fr 1fr !important; } }</style>
+            <style>@media(min-width:768px) { .container > div:last-of-type { grid-template-columns: 1fr 1fr !important; } }</style>
             
             <div class="product-gallery">
                 <div class="main-image">
-                    <img :src="selectedImage" alt="Product">
+                    <img :src="selectedImage" :alt="product?.title" loading="eager">
                 </div>
                 <div class="thumbnails">
-                    <div class="thumb" :class="{'active': selectedImage === product.media.main_image}" @click="selectImage(product.media.main_image)">
-                        <img :src="product.media.main_image">
+                    <div class="thumb" :class="{'active': selectedImage === product?.media.main_image}" @click="selectImage(product.media.main_image)" role="button" tabindex="0">
+                        <img :src="product?.media.main_image" :alt="product?.title">
                     </div>
                     <template x-for="(img, idx) in product?.media?.gallery" :key="idx">
-                        <div class="thumb" :class="{'active': selectedImage === img}" @click="selectImage(img)">
-                            <img :src="img">
+                        <div class="thumb" :class="{'active': selectedImage === img}" @click="selectImage(img)" role="button" tabindex="0">
+                            <img :src="img" :alt="product?.title + ' - صورة ' + (idx + 2)">
                         </div>
                     </template>
                 </div>
@@ -160,78 +176,86 @@
                 <h1 style="font-size:28px; font-weight:900; margin-bottom:15px; line-height:1.3" x-text="product?.title"></h1>
                 
                 <div style="display:flex; align-items:center; margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid #eee; flex-wrap:wrap; gap:10px">
-                    <span style="font-size:30px; font-weight:900; color:var(--wood-primary)" x-text="product?.pricing.sale + ' د.ك'"></span>
-                    <span style="font-size:18px; color:#bbb; text-decoration:line-through" x-text="product?.pricing.regular"></span>
-                    <span style="background:#ff4444; color:white; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:bold">
-                        خصم <span x-text="Math.round(((product?.pricing.regular - product?.pricing.sale) / product?.pricing.regular) * 100) + '%'"></span>
+                    <span style="font-size:32px; font-weight:900; color:var(--wood-primary)" x-text="product?.pricing.sale + ' د.ك'"></span>
+                    <span style="font-size:18px; color:#bbb; text-decoration:line-through" x-text="product?.pricing.regular + ' د.ك'"></span>
+                    <span style="background:#ff4444; color:white; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:bold">
+                        وفّر <span x-text="Math.round(((product?.pricing.regular - product?.pricing.sale) / product?.pricing.regular) * 100) + '%'"></span>
                     </span>
                 </div>
                 
                 <div style="margin-bottom:30px">
-                    <h3 style="font-weight:900; margin-bottom:10px">📝 الوصف</h3>
-                    <p style="color:#777; line-height:1.8" x-html="product?.description.replace(/\n/g, '<br>')"></p>
+                    <h2 style="font-weight:900; margin-bottom:10px; font-size:17px">📝 وصف المنتج</h2>
+                    <p style="color:#666; line-height:1.8; font-size:14px" x-html="product?.description?.replace(/\n/g, '<br>')"></p>
                 </div>
                 
                 <div style="margin-bottom:30px">
-                    <h3 style="font-weight:900; margin-bottom:15px">📊 المواصفات</h3>
+                    <h3 style="font-weight:900; margin-bottom:15px; font-size:17px">📊 المواصفات والتفاصيل</h3>
                     <table class="specs-table">
-                        <tr><td>🔖 الكود</td><td x-text="'#' + product?.id"></td></tr>
-                        <tr><td>✅ الحالة</td><td style="color:green; font-weight:bold">متوفر</td></tr>
+                        <tr><td>🔖 رقم المنتج</td><td x-text="'#' + product?.id"></td></tr>
+                        <tr><td>✅ الحالة</td><td style="color:#22c55e; font-weight:700">متوفر في المخزون</td></tr>
                         <tr><td>💰 السعر الأصلي</td><td x-text="product?.pricing.regular + ' د.ك'"></td></tr>
-                        <tr><td>🔥 السعر الحالي</td><td style="color:var(--wood-primary); font-weight:bold" x-text="product?.pricing.sale + ' د.ك'"></td></tr>
-                        <tr><td>🚚 التوصيل</td><td>مجاني فوق 20 د.ك</td></tr>
-                        <tr><td>💳 الدفع</td><td>عند الاستلام</td></tr>
+                        <tr><td>🔥 السعر الحالي</td><td style="color:var(--wood-primary); font-weight:700" x-text="product?.pricing.sale + ' د.ك'"></td></tr>
+                        <tr><td>🚚 التوصيل</td><td>مجاني للطلبات فوق 20 د.ك</td></tr>
+                        <tr><td>💳 الدفع</td><td>عند الاستلام أو أونلاين</td></tr>
+                        <tr><td>🔒 الضمان</td><td>ضمان الجودة من المتجر</td></tr>
                     </table>
                 </div>
                 
-                <button class="wood-btn wood-btn-primary" style="padding:15px; font-size:16px" 
+                <button class="wood-btn wood-btn-primary" style="padding:16px; font-size:16px" type="button"
                         @click="$store.cart.add({id: product.id, title: product.title, price: product.pricing.sale}); $store.cart.toggle()">
-                    <i class="fa-solid fa-cart-shopping"></i> إضافة للسلة
+                    <i class="fa-solid fa-cart-shopping"></i> إضافة إلى السلة
                 </button>
                 
-                <a :href="waLink" class="wood-btn" style="background:#25D366; color:white; display:block; text-align:center; margin-top:10px; padding:15px; font-size:16px">
-                    <i class="fa-brands fa-whatsapp"></i> استفسار واتساب
+                <a :href="waLink" class="wood-btn" style="background:#25D366; color:white; display:block; text-align:center; margin-top:12px; padding:16px; font-size:16px">
+                    <i class="fa-brands fa-whatsapp"></i> استفسار مباشر عبر واتساب
                 </a>
             </div>
         </div>
     </div>
 
     <div class="floating-buttons">
-        <a :href="waLink" class="float-btn float-whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
-        <div class="float-btn float-cart" @click="$store.cart.toggle()">
+        <a :href="waLink" class="float-btn float-whatsapp" title="استفسار واتساب" aria-label="واتساب">
+            <i class="fa-brands fa-whatsapp"></i>
+        </a>
+        <div class="float-btn float-cart" @click="$store.cart.toggle()" title="السلة" aria-label="السلة">
             <i class="fa-solid fa-cart-shopping"></i>
-            <span class="float-badge" x-text="$store.cart.count" x-show="$store.cart.count > 0"></span>
+            <span class="float-badge" x-text="$store.cart.count" x-show="$store.cart.count > 0" x-cloak></span>
         </div>
     </div>
 
     <div class="drawer-overlay" @click="$store.cart.toggle()"></div>
     <div class="cart-drawer">
-        <div style="display:flex; justify-content:space-between; margin-bottom:20px; border-bottom:1px solid #eee; padding-bottom:15px">
-            <h3 style="font-weight:900">السلة</h3>
-            <i class="fa-solid fa-xmark" style="cursor:pointer; font-size:20px" @click="$store.cart.toggle()"></i>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:2px solid #eee; padding-bottom:15px">
+            <h3 style="font-weight:900; font-size:20px; margin:0">السلة</h3>
+            <button @click="$store.cart.toggle()" style="background:none; border:none; cursor:pointer; font-size:24px; color:#999" type="button" aria-label="إغلاق">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
         <div style="flex:1; overflow-y:auto">
             <template x-for="item in $store.cart.items">
                 <div class="cart-item">
-                    <div style="width:70px; height:70px; background:#f5f5f5; border-radius:5px; display:flex; align-items:center; justify-content:center">
-                        <i class="fa-solid fa-box" style="color:#ccc"></i>
+                    <div style="width:70px; height:70px; background:#f5f5f5; border-radius:8px; display:flex; align-items:center; justify-content:center">
+                        <i class="fa-solid fa-box" style="color:#ccc; font-size:24px"></i>
                     </div>
-                    <div style="flex:1">
-                        <div style="font-size:13px; font-weight:700" x-text="item.title"></div>
-                        <div style="font-size:12px; color:#777">
-                            <span x-text="item.qty"></span> x <span style="color:var(--wood-primary); font-weight:bold" x-text="item.price"></span>
+                    <div style="flex:1; min-width:0">
+                        <div style="font-size:13px; font-weight:700; line-height:1.3" x-text="item.title"></div>
+                        <div style="font-size:12px; color:#777; margin-top:5px">
+                            <span x-text="item.qty"></span> × 
+                            <span style="color:var(--wood-primary); font-weight:bold" x-text="item.price"></span>
                         </div>
                     </div>
-                    <i class="fa-solid fa-trash" style="color:#ddd; cursor:pointer" @click="$store.cart.remove(item.id)"></i>
+                    <button @click="$store.cart.remove(item.id)" style="background:none; border:none; cursor:pointer; color:#ddd; font-size:16px" type="button" title="حذف" aria-label="حذف">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
                 </div>
             </template>
         </div>
-        <div style="border-top:2px solid #eee; padding-top:20px">
-            <div style="display:flex; justify-content:space-between; font-weight:900; font-size:18px; margin-bottom:20px">
+        <div style="border-top:2px solid #eee; padding-top:20px; margin-top:20px">
+            <div style="display:flex; justify-content:space-between; font-weight:900; font-size:20px; margin-bottom:20px">
                 <span>المجموع:</span>
                 <span style="color:var(--wood-primary)" x-text="$store.cart.total + ' د.ك'"></span>
             </div>
-            <button class="wood-btn wood-btn-primary" @click="$store.cart.checkout()">
+            <button class="wood-btn wood-btn-primary" @click="$store.cart.checkout()" type="button" style="padding:15px">
                 <i class="fa-brands fa-whatsapp"></i> إتمام الطلب
             </button>
         </div>
